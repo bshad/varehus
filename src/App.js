@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import {BrowserRouter as Router, Link, Route, Switch, useParams} from "react-router-dom";
+import VareDetaljert from "./VareDetaljert";
 
 class Form extends Component {
     state = {
@@ -19,8 +20,6 @@ class Form extends Component {
             pris: parseFloat(this.state.pris),
             antall: parseInt(this.state.antall)
         }
-
-        console.log("VARE : ", vare);
 
         const resp = await fetch('http://localhost:8080/vare/', {
                 method: 'POST',
@@ -116,13 +115,6 @@ class Vare extends Component {
     }
 }
 
-function VareDetaljert() {
-    let {vareid} = useParams();
-
-    console.log("vareId", vareid);
-    return <h3>Requested id : {vareid}</h3>
-}
-
 const VareListe = (props) => (
     <table>
         <thead>
@@ -149,14 +141,15 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <Switch>
-                    <Route exact path="/">
-                        <Home/>
-                    </Route>
-                    <Route path="/varedetaljert/:vareid">
-                        <VareDetaljert/>
-                    </Route>
-                </Switch>
+                    <Link to="/">Varehus</Link>
+                    <Switch>
+                        <Route exact path="/">
+                            <Home/>
+                        </Route>
+                        <Route path="/varedetaljert/:vareid">
+                            <VareDetaljert/>
+                        </Route>
+                    </Switch>
             </Router>
         );
     }
@@ -185,13 +178,12 @@ class Home extends Component {
     }
 
     render() {
-        return (<div className="App">
-            <header className="App-header">
-                <Link to="/">Varehus</Link>
+        return (
+            <div className="Home">
                 <Form onSubmit={this.getAllItems}/>
                 <VareListe items={this.state.items} onDelete={this.getAllItems}/>
-            </header>
-        </div>);
+            </div>
+        );
     }
 }
 
