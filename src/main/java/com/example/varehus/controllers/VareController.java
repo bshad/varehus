@@ -15,8 +15,8 @@ public class VareController {
     @Autowired
     VareService vareService;
 
-    @GetMapping("/")
-    public Vare getVare(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public Vare getVare(@PathVariable Long id){
         return vareService.getById(id);
     }
 
@@ -27,7 +27,12 @@ public class VareController {
 
     @PostMapping("/")
     public void leggTil(@RequestBody Vare vare) {
-        vareService.add(vare);
+        vareService.create(vare);
+    }
+
+    @PutMapping("/")
+    public void oppdater(@RequestBody Vare vare) {
+        vareService.update(vare);
     }
 
     @DeleteMapping("/")

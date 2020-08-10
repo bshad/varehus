@@ -19,9 +19,9 @@ public class VareHistorikkController {
     @Autowired
     VareHistorikkService vareHistorikkService;
 
-    @GetMapping("/")
-    public List<VareHistorikk> getVareHistorikk(@RequestParam Long vareId){
-        Vare vare = vareService.getById(vareId);
+    @GetMapping("/{id}")
+    public List<VareHistorikk> getVareHistorikk(@PathVariable Long id){
+        Vare vare = vareService.getById(id);
         return vare.getVareHistorikk();
     }
 }

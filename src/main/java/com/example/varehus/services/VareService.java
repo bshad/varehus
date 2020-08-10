@@ -13,12 +13,19 @@ public class VareService {
     @Autowired
     private VareRepository vareRepository;
 
+    @Autowired
+    private VareHistorikkService vareHistorikkService;
+
     public List<Vare> list() {
         return vareRepository.findAll();
     }
 
-    public Vare add(Vare vare) {
+    public Vare create(Vare vare) {
         return vareRepository.save(vare);
+    }
+
+    public void update(Vare vare) {
+        vareHistorikkService.lagreEndringer(vare);
     }
 
     public void delete(Long id){
