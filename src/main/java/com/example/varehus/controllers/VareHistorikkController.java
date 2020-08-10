@@ -22,6 +22,11 @@ public class VareHistorikkController {
     @GetMapping("/{id}")
     public List<VareHistorikk> getVareHistorikk(@PathVariable Long id){
         Vare vare = vareService.getById(id);
-        return vare.getVareHistorikk();
+        List<VareHistorikk> historikkList = vare.getVareHistorikk();
+        if(historikkList.size() > 5){
+            return historikkList.subList(historikkList.size()-5, historikkList.size());
+        }else{
+            return historikkList;
+        }
     }
 }

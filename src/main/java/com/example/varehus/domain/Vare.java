@@ -1,14 +1,9 @@
 package com.example.varehus.domain;
 
-import com.example.varehus.VarehusApplication;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +20,10 @@ public class Vare {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     List<VareHistorikk> vareHistorikk;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    List<VareBilde> vareBilder;
 
     public Vare() {
         id = new Random().nextLong();

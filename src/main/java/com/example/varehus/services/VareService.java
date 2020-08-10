@@ -1,9 +1,11 @@
 package com.example.varehus.services;
 
 import com.example.varehus.domain.Vare;
+import com.example.varehus.domain.VareBilde;
 import com.example.varehus.repositories.VareRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,5 +36,26 @@ public class VareService {
 
     public Vare getById(Long id){
         return vareRepository.findById(id).orElseThrow(() -> new RuntimeException("not found"));
+    }
+
+    public void leggTilBilde(Long vareId, byte[] bytes){
+        VareBilde bilde = new VareBilde();
+        bilde.setBilde(bytes);
+        Vare vare = getById(vareId);
+        vare.getVareBilder().add(bilde);
+        update(vare);
+    }
+
+    public void slettBilde(Long vareId, Long bildeId){
+        Vare vare = getById(vareId);
+        List<VareBilde> vareBildeList = vare.getVareBilder();
+        VareBilde slettet = null;
+        for(VareBilde vareBilde : vareBildeList){
+            if(bildeId.equals(vareBilde.getId())){
+                slettet = vareBilde;
+            }
+        }
+        vareBildeList.remove(slettet);
+        update(vare);
     }
 }
