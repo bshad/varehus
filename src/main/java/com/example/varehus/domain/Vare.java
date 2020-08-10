@@ -1,5 +1,7 @@
 package com.example.varehus.domain;
 
+import com.example.varehus.VarehusApplication;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,12 +10,12 @@ import lombok.Value;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Entity
-@Value
-@Builder
-@AllArgsConstructor
 @Data
 public class Vare {
     @Id
@@ -23,6 +25,9 @@ public class Vare {
     Double vekt;
     Double pris;
     Integer antall;
+    @JsonIgnore
+    @OneToMany
+    List<VareHistorikk> vareHistorikk;
 
     public Vare() {
         id = new Random().nextLong();
