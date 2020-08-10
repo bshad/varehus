@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route, Switch, useParams} from "react-router-dom";
 
 class Form extends Component {
     state = {
@@ -102,16 +97,30 @@ class Vare extends Component {
         const vare = this.props;
         return (
             <tr>
-                <td>{vare.id}</td>
+                <td>
+                    <Link to={{
+                        pathname: "/varedetaljert/" + vare.id,
+                    }}>
+                        {vare.id}
+                    </Link>
+                </td>
                 <td>{vare.navn}</td>
                 <td>{vare.vekt}</td>
                 <td>{vare.pris}</td>
                 <td>{vare.antall}</td>
-                <td><button onClick={this.delete}>Slett</button></td>
-                <td><button>Rediger</button></td>
+                <td>
+                    <button onClick={this.delete}>Slett</button>
+                </td>
             </tr>
         );
     }
+}
+
+function VareDetaljert() {
+    let {vareid} = useParams();
+
+    console.log("vareId", vareid);
+    return <h3>Requested id : {vareid}</h3>
 }
 
 const VareListe = (props) => (
@@ -137,6 +146,24 @@ const VareListe = (props) => (
 
 class App extends Component {
 
+    render() {
+        return (
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <Home/>
+                    </Route>
+                    <Route path="/varedetaljert/:vareid">
+                        <VareDetaljert/>
+                    </Route>
+                </Switch>
+            </Router>
+        );
+    }
+}
+
+class Home extends Component {
+
     state = {
         items: []
     };
@@ -158,15 +185,13 @@ class App extends Component {
     }
 
     render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <div>Varehus</div>
-                    <Form onSubmit={this.getAllItems}/>
-                    <VareListe items={this.state.items} onDelete={this.getAllItems}/>
-                </header>
-            </div>
-        );
+        return (<div className="App">
+            <header className="App-header">
+                <Link to="/">Varehus</Link>
+                <Form onSubmit={this.getAllItems}/>
+                <VareListe items={this.state.items} onDelete={this.getAllItems}/>
+            </header>
+        </div>);
     }
 }
 
