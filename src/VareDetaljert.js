@@ -1,5 +1,6 @@
 import {useParams} from "react-router-dom";
 import React, {Component, useEffect, useState} from "react";
+import VareBilder from "./VareBilder";
 
 class EditForm extends Component {
 
@@ -159,6 +160,7 @@ function VareDetaljert() {
         <div>
             <EditForm vareId={vareid} onSave={fetchVareHistorikk}/>
             <VareHistorikkListe vareHistorikk={vareHistorikk}/>
+            <VareBilder vareId={vareid}/>
         </div>
     );
 }
